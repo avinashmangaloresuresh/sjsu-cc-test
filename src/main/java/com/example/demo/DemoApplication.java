@@ -32,60 +32,25 @@ public class DemoApplication {
     SpringApplication.run(DemoApplication.class, args);
   }
 }
-
-// Add the controller.
 @RestController
 class HelloWorldController {
-	String baseUrl = "http://localhost:8080";
+//	String baseUrl = "http://localhost:8080";
+	String baseUrl = "https://rest-avinashmangaloresuresh115.wl.r.appspot.com";
+	
+	
   @GetMapping("/")
   public String hello() {
-//    return "hello world!";
-	// Instantiates a client
-	    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-
-	    // The kind for the new entity
-	    String kind = "Car";
-	    // The name/ID for the new entity
-	    // The Cloud Datastore key for the new entity
-//	    Key carKey = datastore.newKeyFactory().setKind(kind).newKey(name);//.newKey(name);
-	    KeyFactory keyFactory = datastore.newKeyFactory().setKind(kind);
-	    Key carKey = datastore.allocateId(keyFactory.newKey());
-
-	    // Prepares the new entity
-	    Entity car = Entity.newBuilder(carKey)
-	    		.set("id", 123)
-	    		.set("model", "Tesla")
-	    		.set("price", 523.12)
-	    		.build();
-	    // Saves the entity
-	    datastore.put(car);
-
-//	    System.out.printf("Saved %s: %s%n", task.getKey().getName(), task.getString("description"));
-
-	    // Retrieve entity
-	    Entity retrieved = datastore.get(carKey);
-
-	    return "Retrieved "+carKey.getName()+": "+ retrieved.getString("model");
+    return "hello world!";
 
   }
   
   
-  
-  
-  
-  
-  @GetMapping("/car/{id}")
-//@ResponseBody
+ 
+  @GetMapping("/cs218fall2022/rest/car/{id}")
 public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 	  System.out.println("Mapping 1");
 	  Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-//	  Query<Entity> query =
-//			    Query.newEntityQueryBuilder()
-//			        .setKind("Car")
-//			        .setFilter(PropertyFilter.eq("id", id+""))
-//			        .build();
-//
-//	  
+	  
 	  Query<Entity> query =
 			    Query.newEntityQueryBuilder()
 			        .setKind("Car")
@@ -106,7 +71,14 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 	    System.out.println(currentEntity.getLong("id"));
 	  }
 	  
-	  return new ResponseEntity<Object>(responseObj, HttpStatus.OK);
+	  
+	  HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json; charset=UTF-8");
+	    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
+	   
+	    
+	    
+	  return new ResponseEntity<Object>(responseObj, headers, HttpStatus.OK);
 //    return "ID: " + id;
 }
   
@@ -116,7 +88,7 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
   
   
   
-  @GetMapping("/car")
+  @GetMapping("/cs218fall2022/rest/car")
 //  @ResponseBody
   public ResponseEntity<Object> getFooByIdUsingQueryParam() {
 	  System.out.println("Mapping 2");
@@ -155,8 +127,12 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 	    System.out.println(currentEntity.getLong("id"));
 	  }
 	  
+	  HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json; charset=UTF-8");
+	    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
+	  
 	  responseObj.put("carList", responseObjValue);
-	  return new ResponseEntity<Object>(responseObj, HttpStatus.OK);
+	  return new ResponseEntity<Object>(responseObj, headers, HttpStatus.OK);
 //      return "ID: " + id;
   }
   
@@ -165,8 +141,7 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
   
   
  
-   @PostMapping(
-      value = "/car")
+   @PostMapping("/cs218fall2022/rest/car")
   public ResponseEntity<Object> postBody(@RequestBody Car car) {
 	   System.out.println("Mapping 3");
 	   Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -213,13 +188,14 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json; charset=UTF-8");
 	    headers.add("Location", baseUrl+"/car/"+car.getId());
+	    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
 	   
 	    return new ResponseEntity<Object>("", headers, HttpStatus.CREATED);
   }
   
   
   
-   @PutMapping("/car/{id}")
+   @PutMapping("/cs218fall2022/rest/car/{id}")
 		  public ResponseEntity<Object> putBody(@PathVariable long id, @RequestBody Car car) {
 	   System.out.println("Mapping 4");
 			   Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -297,11 +273,15 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 			    
 			   
 //			   return car.getModel();
-			  return new ResponseEntity<Object>("", HttpStatus.OK);
+			  HttpHeaders headers = new HttpHeaders();
+			    headers.add("Content-Type", "application/json; charset=UTF-8");
+			    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
+			    
+			  return new ResponseEntity<Object>("", headers, HttpStatus.OK);
 		  }
   
    
-   @DeleteMapping("/car/{id}")
+   @DeleteMapping("/cs218fall2022/rest/car/{id}")
 // @ResponseBody
  public ResponseEntity<Object> deleteFoo(@PathVariable long id) {
 	   System.out.println("Mapping 5");
@@ -337,7 +317,10 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
   
 	   
 //	   return car.getModel();
-	  return new ResponseEntity<Object>("", HttpStatus.OK);
+	  HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json; charset=UTF-8");
+	    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
+	  return new ResponseEntity<Object>("", headers, HttpStatus.OK);
  }
    
   
