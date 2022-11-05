@@ -187,7 +187,7 @@ public ResponseEntity<Object> getFooByIdUsingQueryParam(@PathVariable long id) {
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json; charset=UTF-8");
-	    headers.add("Location", baseUrl+"/car/"+car.getId());
+	    headers.add("Location", baseUrl+"/cs218fall2022/rest/car/"+car.getId());
 	    headers.add("CS218FALL2022-WebSvc", "AvinashMangaloreSuresh115");
 	   
 	    return new ResponseEntity<Object>("", headers, HttpStatus.CREATED);
